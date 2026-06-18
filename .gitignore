@@ -3,3 +3,9 @@ testfiles/*
 
 #exe 
 *.exe
+
+#pyinstaller build files
+build/*
+dist/*
+*.spec
+
