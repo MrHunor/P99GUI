@@ -3,9 +3,16 @@ import subprocess
 import tkinter as tk
 from tkinter import filedialog, messagebox
 import customtkinter as ctk
+import sys
 
-# Resolve path relative to the script's directory
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# Configuration
+if getattr(sys, "frozen", False):
+    # Running as a compiled .exe
+    BASE_DIR = os.path.dirname(sys.executable)
+else:
+    # Running as a standard python script
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 EXE_PATH = os.path.join(BASE_DIR, "main.exe")
 
 ctk.set_appearance_mode("System")
