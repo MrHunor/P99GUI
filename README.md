@@ -1,2 +1,2 @@
-Just clone it and download the latest version of P99 alongside
+Just run the .exe in releases :)!
 
