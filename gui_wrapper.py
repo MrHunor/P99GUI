@@ -1,19 +1,19 @@
 import os
+import sys
 import subprocess
 import tkinter as tk
 from tkinter import filedialog, messagebox
+import urllib.request
 import customtkinter as ctk
-import sys
 
-# Configuration
+# Resolve path relative to the script or compiled EXE location
 if getattr(sys, "frozen", False):
-    # Running as a compiled .exe
     BASE_DIR = os.path.dirname(sys.executable)
 else:
-    # Running as a standard python script
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 EXE_PATH = os.path.join(BASE_DIR, "main.exe")
+DOWNLOAD_URL = "https://github.com/MrHunor/P99/releases/latest/download/main.exe"
 
 ctk.set_appearance_mode("System")
 ctk.set_default_color_theme("blue")
@@ -35,7 +35,20 @@ class P99Gui(ctk.CTk):
 
     def verify_backend(self):
         if not os.path.exists(EXE_PATH):
-            self.log_output(f"Warning: Executable not found at {EXE_PATH}\n\n")
+            self.download_backend()
+
+    def download_backend(self):
+        self.log_output("main.exe not found. Downloading latest release from GitHub...\n")
+        self.update_idletasks()
+        
+        try:
+            req = urllib.request.Request(DOWNLOAD_URL, headers={"User-Agent": "Mozilla/5.0"})
+            with urllib.request.urlopen(req) as response, open(EXE_PATH, "wb") as out_file:
+                out_file.write(response.read())
+            self.log_output("Download complete. Engine ready.\n\n")
+        except Exception as e:
+            self.log_output(f"Error downloading executable: {str(e)}\n\n")
+            messagebox.showerror("Download Error", f"Could not download main.exe automatically:\n{e}")
 
     def create_layout(self):
         header = ctk.CTkFrame(self, fg_color="transparent")
