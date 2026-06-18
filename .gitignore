@@ -1,0 +1,5 @@
+#testfiles
+testfiles/*
+
+#exe 
+*.exe
